@@ -1,0 +1,30 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**
+        - id: produit-categorie-service
+          uri: lb://produit-categorie-service
+          predicates:
+            - Path=/produits/**, /categories/**
+        - id: commande-service
+          uri: lb://commande-service
+          predicates:
+            - Path=/commandes/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
