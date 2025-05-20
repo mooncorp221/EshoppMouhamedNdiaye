@@ -10,6 +10,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +19,17 @@ public class User {
     @NotBlank(message = "Le nom est obligatoire")
     private String nom;
 
+    @NotBlank(message = "Le nom d'utilisateur est obligatoire")
+    @Column(unique = true)
+    private String username;
+
     @NotBlank(message = "L'email est obligatoire")
     @Email(message = "Email invalide")
     @Column(unique = true)
     private String email;
+
+    @NotBlank(message = "Le mot de passe est obligatoire")
+    private String password;
 
     @NotBlank(message = "Le rôle est obligatoire")
     private String role;

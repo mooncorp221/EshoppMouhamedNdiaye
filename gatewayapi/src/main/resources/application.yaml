@@ -12,9 +12,20 @@ spring:
           enabled: true
       routes:
         - id: user-service
+        - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/users/**
+        - id: commande-service
+          uri: lb://commande-service
+          predicates:
+            - Path=/commandes/**
+        - id: auth-service
+          uri: lb://user-service
+          predicates:
+            - Path=/auth/**, /register
+          filters:
+            - StripPrefix=0
         - id: produit-categorie-service
           uri: lb://produit-categorie-service
           predicates:

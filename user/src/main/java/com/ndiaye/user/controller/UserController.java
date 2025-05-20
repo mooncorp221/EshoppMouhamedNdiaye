@@ -19,25 +19,16 @@ public class UserController {
         this.service = service;
     }
 
-
     @GetMapping
     public List<User> all() {
         return service.findAll();
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getById(@PathVariable Long id) {
-        Optional<Optional<User>> user = Optional.ofNullable(service.findById(id));
-        return user.map(ResponseEntity::ok)
+    public ResponseEntity<User> getById(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-
-    @PostMapping
-    public ResponseEntity<User> save(@Valid @RequestBody User user) {
-        User saved = service.save(user);
-        return ResponseEntity.ok(saved);
     }
 
 
@@ -46,12 +37,13 @@ public class UserController {
         return service.findById(id).map(existing -> {
             existing.setNom(updatedUser.getNom());
             existing.setEmail(updatedUser.getEmail());
-
+            existing.setUsername(updatedUser.getUsername());
+            existing.setRole(updatedUser.getRole());
+            // On ne met pas à jour le password ici sauf si tu veux le permettre
             User updated = service.save(existing);
             return ResponseEntity.ok(updated);
         }).orElse(ResponseEntity.notFound().build());
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
