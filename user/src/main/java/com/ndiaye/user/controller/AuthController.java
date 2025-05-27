@@ -47,8 +47,10 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtil.generateToken(authentication.getName());
-        return ResponseEntity.ok(new AuthResponse(token));
+        String accessToken = jwtUtil.generateToken(authentication.getName());
+        String refreshToken = jwtUtil.generateRefreshToken(authentication.getName());
+        return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken));
+
     }
 
     @GetMapping("/auth/me")

@@ -69,7 +69,7 @@ public class CommandeController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         return service.findById(id).map(c -> {
             service.delete(id);
-            return ResponseEntity.noContent().<Void>build(); // ✅ ici
+            return ResponseEntity.noContent().<Void>build();
         }).orElse(ResponseEntity.notFound().build());
     }
 

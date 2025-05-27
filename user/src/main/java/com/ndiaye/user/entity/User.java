@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
+@Table(name = "users") // 👈 non-reserved word
 @Getter
 @Setter
 @NoArgsConstructor

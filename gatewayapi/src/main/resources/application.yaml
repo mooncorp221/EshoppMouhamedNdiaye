@@ -12,28 +12,33 @@ spring:
           enabled: true
       routes:
         - id: user-service
-        - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/users/**
-        - id: commande-service
-          uri: lb://commande-service
-          predicates:
-            - Path=/commandes/**
+
         - id: auth-service
           uri: lb://user-service
           predicates:
-            - Path=/auth/**, /register
+            - Path=/auth/**
+            - Path=/register
           filters:
             - StripPrefix=0
+
         - id: produit-categorie-service
           uri: lb://produit-categorie-service
           predicates:
-            - Path=/produits/**, /categories/**
+            - Path=/produits/**
+            - Path=/categories/**
+          filters:
+            - name: JwtAuthFilter
+
         - id: commande-service
           uri: lb://commande-service
           predicates:
             - Path=/commandes/**
+          filters:
+            - name: JwtAuthFilter
+
 
 eureka:
   client:
